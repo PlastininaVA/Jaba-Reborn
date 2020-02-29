@@ -33,28 +33,9 @@ public class User implements UserInterface{
     public String getSurname(){
         return surname;
     }
+    public String getPatronymic() { return patronymic; }
+
     public String getPasswordHash() { return passwordHash; }
-
-
-    public User FindById(int id){
-        return null;
-    };
-
-    public User FindByPhone(String phone) {
-        return null;
-    };
-
-    public User FindByPassport(String passport) {
-        return null;
-    };
-
-    public User FindBySurname(String Surname) {
-        return null;
-    };
-
-    public User LogIn(String phone, String password) {
-        return null;
-    };
 
 
 }

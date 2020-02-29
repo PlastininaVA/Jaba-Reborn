@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class DataBaseServlet extends HttpServlet {
 
-    DataBase dataBase;
+    private DataBase dataBase;
 
     public DataBaseServlet(DataBase dataBase) {
         this.dataBase = dataBase;
@@ -18,7 +18,7 @@ public class DataBaseServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-        int action = 0; long id = 0;
+       long id = 0;
         if (request.getParameter("id")!=null) {
             id = Long.parseLong(request.getParameter("id"));
         }
@@ -26,25 +26,26 @@ public class DataBaseServlet extends HttpServlet {
         String passport = request.getParameter("passport");
         String surname = request.getParameter("surname");
         String password = request.getParameter("password");
-        if (request.getParameter("action")!=null) {
-            action = Integer.parseInt(request.getParameter("action"));
-        }
+        String action = request.getParameter("action");
 
-        if (( surname != null ) && (action == 1)) {
+
+        if (( surname != null ) && (action.equals("surnameSearch"))) {
             boolean mightbefound = true;
+            boolean notfoundanything = true;
             while (mightbefound) {
                 User user = dataBase.getUserBySurname(surname);
                 if (user != null) {
                     response.getWriter().println(String.format("User found: ", user.getName()));
+                    notfoundanything = false;
                 } else {
-                    response.getWriter().println("User not found");
+                    if (notfoundanything) {response.getWriter().println("User not found");}
                     mightbefound = false;
                 }
             }
         }
 
 
-        if (( passport != null ) && ( action == 2 )){
+        if (( passport != null ) && ( action.equals("passportSearch"))){
             User user = dataBase.getUserByPassport(passport);
             if (user != null) {
                 response.getWriter().println(String.format("User found: ", user.getName()));
@@ -53,7 +54,7 @@ public class DataBaseServlet extends HttpServlet {
             }
         }
 
-        if (( phone != null) && (action == 3)) {
+        if (( phone != null) && (action.equals("phoneSearch"))) {
             User user = dataBase.getUserByPhone(phone);
             if (user != null) {
                 response.getWriter().println(String.format("User found: ", user.getName()));
@@ -62,7 +63,7 @@ public class DataBaseServlet extends HttpServlet {
             }
         }
 
-        if (( id >= 0 ) && (action == 4)) {
+        if (( id >= 0 ) && (action.equals("idSearch"))) {
             User user = dataBase.getUserById(id);
             if (user != null){
                 response.getWriter().println(String.format("Hello %s",user.getName()));
@@ -71,7 +72,7 @@ public class DataBaseServlet extends HttpServlet {
             }
         }
 
-        if ((password != null) && ( phone != null ) && (action == 0))  {
+        if ((password != null) && ( phone != null ) && (action.equals("login")))  {
             User user = dataBase.getUserByPhone(phone);
             if (BCrypt.checkpw(password,user.getPasswordHash())) {
                 response.getWriter().println(String.format("Nice to meet you, ",user.getName()));
