@@ -1,0 +1,13 @@
+# Idea files
+**/*.iml
+**/*.ipr
+**/*.iws
+**/.idea/**
+!**/.idea/sonarlint.xml
+!**/.idea/copyright/**
+!**/.idea/inspectionProfiles/**
+
+#Build targets
+**/bin/**
+**/target/**
+**/build/**
