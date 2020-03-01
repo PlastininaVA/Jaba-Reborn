@@ -10,15 +10,17 @@ import java.io.IOException;
 public class DataBaseServlet extends HttpServlet {
 
     private DataBase dataBase;
+    private AccountDataBase accountDataBase;
 
-    public DataBaseServlet(DataBase dataBase) {
-        this.dataBase = dataBase;
+    public DataBaseServlet(DataBase dataBase, AccountDataBase accountDataBase) {
+        this.dataBase = dataBase; this.accountDataBase = accountDataBase;
     }
+
 
     @Override
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-       long id = 0;
+        long id = -1;
         if (request.getParameter("id")!=null) {
             id = Long.parseLong(request.getParameter("id"));
         }
@@ -27,8 +29,18 @@ public class DataBaseServlet extends HttpServlet {
         String surname = request.getParameter("surname");
         String password = request.getParameter("password");
         String action = request.getParameter("action");
+        //-------------------------------------------------------
+        if ((id>=0) && (action.equals("seeUsersAccounts"))){
+            User user = dataBase.getUserById(id);
+            if (user!=null){
+                for (int i=0; i<user.accounts.size(); i++){
+                    response.getWriter().println("Accounts ids are");
+                    response.getWriter().println(user.accounts.get(i).toString());
+                }
+            }
+        }
 
-
+        //--------------------------------------------------------
         if (( surname != null ) && (action.equals("surnameSearch"))) {
             boolean mightbefound = true;
             boolean notfoundanything = true;
@@ -88,14 +100,44 @@ public class DataBaseServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action =request.getParameter("action");
         String name = request.getParameter("name");
         String surname = request.getParameter("surname");
         String patronymic = request.getParameter("patronymic");
         String passport = request.getParameter("passport");
         String phone = request.getParameter("phone");
         String password = request.getParameter("password");
-        User user = new User(name,surname,patronymic,passport,phone,password);
-        dataBase.putUser(user);
+
+       if (action.equals("putUser")) {
+           User user = new User(name,surname,patronymic,passport,phone,password);
+           dataBase.putUser(user);
+       }
+        //---------------------------------------------------------------
+        long id = -1;
+        double balance = -1;
+        String number = request.getParameter("number");
+        if (request.getParameter("balance")!=null) {
+             balance = Double.parseDouble(request.getParameter("balance"));
+        }
+        //-----------------------------------------------
+        CURRENCY currency = CURRENCY.US;
+        if (request.getParameter("currency").equals("EU")){
+            currency=CURRENCY.EU;
+        }
+        if (request.getParameter("currency").equals("RU")){
+            currency=CURRENCY.RU;
+        }
+        //---------------------------------------------------
+        if (request.getParameter("id")!=null){
+            id = Long.parseLong(request.getParameter("id"));
+        }
+        //----------------------------------------------------------------
+        if (action.equals("addAccount")){
+            Account account = new Account(number, balance, currency);
+            accountDataBase.putAccount(account);
+            dataBase.getUserById(id).addAccount(accountDataBase.getCurrentId()-1);
+        }
+        //-----------------------------------------------------------------
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
     }

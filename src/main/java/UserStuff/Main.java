@@ -7,7 +7,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 
 public class Main {
     public static void main(String[] args) {
-        DataBaseServlet dataBaseServlet = new DataBaseServlet(new DataBase());
+        DataBaseServlet dataBaseServlet = new DataBaseServlet(new DataBase(), new AccountDataBase());
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.addServlet(new ServletHolder(dataBaseServlet), "/hello");

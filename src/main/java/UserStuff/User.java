@@ -12,7 +12,7 @@ public class User implements UserInterface{
     private String passport;
     private String phone;
     private String passwordHash;
-    List<Integer> accounts;
+    public List<Long> accounts;
 
     public User(String name, String surname, String patronymic, String passport, String phone, String password){
         this.name=name;
@@ -21,7 +21,7 @@ public class User implements UserInterface{
         this.passport=passport;
         this.phone=phone;
         this.passwordHash=BCrypt.hashpw(password,BCrypt.gensalt());
-        accounts = new ArrayList<Integer>();
+        accounts = new ArrayList<Long>();
     }
     public String getName(){ return name; }
     public String getPhone(){
@@ -36,6 +36,9 @@ public class User implements UserInterface{
     public String getPatronymic() { return patronymic; }
 
     public String getPasswordHash() { return passwordHash; }
-
+    //---------------------------------------------------------
+    public void addAccount(long id){
+        accounts.add(id);
+    }
 
 }
