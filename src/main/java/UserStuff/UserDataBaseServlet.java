@@ -6,32 +6,31 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 
-public class DataBaseServlet extends HttpServlet {
+public class UserDataBaseServlet extends HttpServlet {
 
-    private DataBase dataBase;
-    private AccountDataBase accountDataBase;
+    private UserDataBase userDataBase;
+    private String notfound = "User not found";
 
-    public DataBaseServlet(DataBase dataBase, AccountDataBase accountDataBase) {
-        this.dataBase = dataBase; this.accountDataBase = accountDataBase;
+
+    public UserDataBaseServlet(UserDataBase userDataBase) {
+        this.userDataBase = userDataBase;
     }
 
 
     @Override
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-        long id = -1;
-        if (request.getParameter("id")!=null) {
-            id = Long.parseLong(request.getParameter("id"));
-        }
+        String id  = request.getParameter("id");
         String phone = request.getParameter("phone");
         String passport = request.getParameter("passport");
         String surname = request.getParameter("surname");
         String password = request.getParameter("password");
         String action = request.getParameter("action");
         //-------------------------------------------------------
-        if ((id>=0) && (action.equals("seeUsersAccounts"))){
-            User user = dataBase.getUserById(id);
+        if ((id != null) && (action.equals("seeUsersAccounts"))){
+            User user = userDataBase.getUserById(id);
             if (user!=null){
                 for (int i=0; i<user.accounts.size(); i++){
                     response.getWriter().println("Accounts ids are");
@@ -42,50 +41,50 @@ public class DataBaseServlet extends HttpServlet {
 
         //--------------------------------------------------------
         if (( surname != null ) && (action.equals("surnameSearch"))) {
-            boolean mightbefound = true;
-            boolean notfoundanything = true;
-            while (mightbefound) {
-                User user = dataBase.getUserBySurname(surname);
-                if (user != null) {
-                    response.getWriter().println(String.format("User found: ", user.getName()));
-                    notfoundanything = false;
-                } else {
-                    if (notfoundanything) {response.getWriter().println("User not found");}
-                    mightbefound = false;
+            ArrayList<User> users = userDataBase.getUserBySurname(surname);
+            if (users.get(0)!=null){
+                for (int i =0 ; i<users.size();i++){
+                    response.getWriter().println(String.format("User found: ",users.get(i).getName()));
                 }
+
+            } else {
+                response.getWriter().println(notfound);
             }
+
+
+
         }
 
 
         if (( passport != null ) && ( action.equals("passportSearch"))){
-            User user = dataBase.getUserByPassport(passport);
+            User user = userDataBase.getUserByPassport(passport);
             if (user != null) {
                 response.getWriter().println(String.format("User found: ", user.getName()));
             } else {
-                response.getWriter().println("User not found");
+                response.getWriter().println(notfound);
             }
         }
 
         if (( phone != null) && (action.equals("phoneSearch"))) {
-            User user = dataBase.getUserByPhone(phone);
+            User user = userDataBase.getUserByPhone(phone);
             if (user != null) {
                 response.getWriter().println(String.format("User found: ", user.getName()));
             } else {
-                response.getWriter().println("User not found");
+                response.getWriter().println(notfound);
             }
         }
 
-        if (( id >= 0 ) && (action.equals("idSearch"))) {
-            User user = dataBase.getUserById(id);
+        if (( id != null ) && (action.equals("idSearch"))) {
+            User user = userDataBase.getUserById(id);
             if (user != null){
                 response.getWriter().println(String.format("Hello %s",user.getName()));
             } else {
-                response.getWriter().println("User not found");
+                response.getWriter().println(notfound);
             }
         }
 
         if ((password != null) && ( phone != null ) && (action.equals("login")))  {
-            User user = dataBase.getUserByPhone(phone);
+            User user = userDataBase.getUserByPhone(phone);
             if (BCrypt.checkpw(password,user.getPasswordHash())) {
                 response.getWriter().println(String.format("Nice to meet you, ",user.getName()));
             } else {
@@ -100,7 +99,10 @@ public class DataBaseServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         String action =request.getParameter("action");
+
+        String id = request.getParameter("id");
         String name = request.getParameter("name");
         String surname = request.getParameter("surname");
         String patronymic = request.getParameter("patronymic");
@@ -109,35 +111,10 @@ public class DataBaseServlet extends HttpServlet {
         String password = request.getParameter("password");
 
        if (action.equals("putUser")) {
-           User user = new User(name,surname,patronymic,passport,phone,password);
-           dataBase.putUser(user);
+           User user = new User(id, name,surname,patronymic,passport,phone,password);
+           userDataBase.putUser(user);
        }
-        //---------------------------------------------------------------
-        long id = -1;
-        double balance = -1;
-        String number = request.getParameter("number");
-        if (request.getParameter("balance")!=null) {
-             balance = Double.parseDouble(request.getParameter("balance"));
-        }
-        //-----------------------------------------------
-        CURRENCY currency = CURRENCY.US;
-        if (request.getParameter("currency").equals("EU")){
-            currency=CURRENCY.EU;
-        }
-        if (request.getParameter("currency").equals("RU")){
-            currency=CURRENCY.RU;
-        }
-        //---------------------------------------------------
-        if (request.getParameter("id")!=null){
-            id = Long.parseLong(request.getParameter("id"));
-        }
-        //----------------------------------------------------------------
-        if (action.equals("addAccount")){
-            Account account = new Account(number, balance, currency);
-            accountDataBase.putAccount(account);
-            dataBase.getUserById(id).addAccount(accountDataBase.getCurrentId()-1);
-        }
-        //-----------------------------------------------------------------
+       //------------------------------------------------------
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
     }

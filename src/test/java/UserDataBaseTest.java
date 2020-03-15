@@ -1,15 +1,15 @@
-import UserStuff.DataBase;
+import UserStuff.UserDataBase;
 import UserStuff.User;
 import org.junit.Test;
-import org.junit.Assert;
+
 import static org.junit.Assert.assertEquals;
 
 
-public class DataBaseTest {
+public class UserDataBaseTest {
     @Test
     public void putUser(){
-        DataBase testBase = new DataBase();
-        User Semen = new User("Semen", "Semenov", "Semenovich", "1234123456",
+        UserDataBase testBase = new UserDataBase();
+        User Semen = new User("1","Semen", "Semenov", "Semenovich", "1234123456",
                 "880005553535","123456");
         testBase.putUser(Semen);
         assertEquals(testBase.getUserByPassport("1234123456").getPassport(),"1234123456");
@@ -18,12 +18,12 @@ public class DataBaseTest {
         assertEquals(testBase.getUserByPhone("88005553535").getName(),"Semen");
         assertEquals(testBase.getUserBySurname("Semenov").getSurname(),"Semenov");
         assertEquals(testBase.getUserBySurname("Semenov").getName(),"Semen");
-        assertEquals(testBase.getUserById(0).getName(), "Semen");
+        assertEquals(testBase.getUserById("1").getName(), "Semen");
     }
     @Test
     public void getUserByPassport(){
-        DataBase testBase = new DataBase();
-        User Semen = new User("Semen", "Semenov", "Semenovich", "1234123456",
+        UserDataBase testBase = new UserDataBase();
+        User Semen = new User("1", "Semen", "Semenov", "Semenovich", "1234123456",
                 "880005553535","123456");
         testBase.putUser(Semen);
         assertEquals(testBase.getUserByPassport("1234123456").getPassport(),"1234123456");
@@ -31,8 +31,8 @@ public class DataBaseTest {
     }
     @Test
     public void getUserByPhone(){
-        DataBase testBase = new DataBase();
-        User Semen = new User("Semen", "Semenov", "Semenovich", "1234123456",
+        UserDataBase testBase = new UserDataBase();
+        User Semen = new User("1","Semen", "Semenov", "Semenovich", "1234123456",
                 "880005553535","123456");
         testBase.putUser(Semen);
         assertEquals(testBase.getUserByPhone("88005553535").getPhone(),"88005553535");
@@ -40,8 +40,8 @@ public class DataBaseTest {
     }
     @Test
     public void getUserBySurname() {
-        DataBase testBase = new DataBase();
-        User Semen = new User("Semen", "Semenov", "Semenovich", "1234123456",
+        UserDataBase testBase = new UserDataBase();
+        User Semen = new User("1","Semen", "Semenov", "Semenovich", "1234123456",
                 "880005553535", "123456");
         testBase.putUser(Semen);
         assertEquals(testBase.getUserBySurname("Semenov").getSurname(),"Semenov");
