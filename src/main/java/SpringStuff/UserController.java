@@ -15,6 +15,12 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @GetMapping(value="/test", produces =  "application/json; charset=UTF-8")
+    public ResponseEntity<?> testing(){
+        return new ResponseEntity<String>("Test successfull",HttpStatus.OK);
+    }
+
+
     @PostMapping(value="/putUser")
     public void putUser(@RequestBody User user){
         userRepository.save(user);

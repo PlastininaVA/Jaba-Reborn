@@ -30,8 +30,8 @@ public class User {
         return BCrypt.hashpw(password,BCrypt.gensalt());
     }
 
-    public User( String name, String surname, String patronymic, String passport, String phone, String passwordHash){
-        this.name=name;
+   public User( String name, String surname, String patronymic, String passport, String phone, String passwordHash){
+       this.name=name;
         this.surname=surname;
         this.patronymic=patronymic;
         this.passport=passport;

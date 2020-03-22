@@ -26,8 +26,8 @@ public class AccountController {
 
     @GetMapping(value="/getTransactions", produces = "application/json; charset=UTF-8")
     public ResponseEntity<?> getTransactions(@RequestParam(value="id") Long id){
-        List<Transaction> sender = transactionRepository.getBySender_id(id);
-        List<Transaction> receiver = transactionRepository.getByReceiver_id(id);
+        List<Transaction> sender = transactionRepository.getBySenderid(id);
+        List<Transaction> receiver = transactionRepository.getByReceiverid(id);
         sender.addAll(receiver);
         return new ResponseEntity<List<Transaction>>(sender, HttpStatus.OK);
     }
@@ -40,8 +40,8 @@ public class AccountController {
     @PostMapping(value="/addTransaction", produces = "application/json; charset=UTF-8")
     public ResponseEntity<?> addTransaction(@RequestBody Transaction transaction){
         transactionRepository.save(transaction);
-        Account sender = accountRepository.getById(transaction.getSender_id());
-        Account receiver = accountRepository.getById(transaction.getReceiver_id());
+        Account sender = accountRepository.getById(transaction.getSenderid());
+        Account receiver = accountRepository.getById(transaction.getReceiverid());
         accountRepository.delete(sender);
         accountRepository.delete(receiver);
         sender.setBalance(sender.getBalance()-transaction.getSum());

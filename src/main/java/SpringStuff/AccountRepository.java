@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
     Account getById(Long id);
-    List<Account> getByUser_id(Long user_id);
+    List<Account> getByUserid(Long userid);
 }

@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     Transaction getById(long id);
-    List<Transaction> getBySender_id(Long Sender_id);
-    List<Transaction> getByReceiver_id(Long Receiver_id);
+    List<Transaction> getBySenderid(Long senderid);
+    List<Transaction> getByReceiverid(Long receiverid);
 
 }

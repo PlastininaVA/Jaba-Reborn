@@ -7,7 +7,8 @@ import java.util.ArrayList;
 @Table(name = "account")
 public class Account {
 
-    private long user_id;
+    @Column(name="userid")
+    private long userid;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -15,22 +16,22 @@ public class Account {
     @Column(name = "balance")
     private double balance;
     @Column(name = "currency")
-    private CURRENCY currency;
+    private String currency;
 
     //--------------------------------------------------------------------------
-    public Account(long user_id, double balance, CURRENCY currency){
-        this.user_id=user_id;
+    public Account(long user_id, double balance, String currency){
+       this.userid=user_id;
         this.balance=balance;
         this.currency=currency;
     }
     //------------------------------------------------------------
-    public long getUser_id(){return user_id;}
+    public long getUser_id(){return userid;}
     public long getId(){return id;}
     public double getBalance(){return balance;}
-    public CURRENCY getCurrency(){return currency;}
+    public String getCurrency(){return currency;}
     //---------------------------------------------------------
     public void setBalance(double balance){this.balance=balance;}
-    public void setCurrency(CURRENCY currency){this.currency=currency;}
+    public void setCurrency(String currency){this.currency=currency;}
     //----------------------------------------------------------------------
     private double CountBalance(){
       return 0;
