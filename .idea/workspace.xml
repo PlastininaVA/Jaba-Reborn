@@ -2,9 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="325aa7ef-6f18-4d40-8e17-4f43a2decaca" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/AccountsAndOperations/Transaction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/DataBase/DBConnectionManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/DataBase/HibernateManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Repositories/AccountRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Servlets/AccountServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/AccountsAndOperations/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/AccountsAndOperations/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/AccountsAndOperations/DataBase.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/AccountsAndOperations/DataBaseServlet.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,7 +61,7 @@
       <workItem from="1583147572947" duration="638000" />
       <workItem from="1583148849456" duration="619000" />
       <workItem from="1584956589076" duration="26000" />
-      <workItem from="1584978849103" duration="614000" />
+      <workItem from="1584978849103" duration="2689000" />
     </task>
     <servers />
   </component>
@@ -72,6 +77,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="694" y="280" width="424" height="479" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1583148864007" />
+    <state x="526" y="271" width="924" height="679" key="Maven.ArtifactSearchDialog" timestamp="1584981437227">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="526" y="271" width="924" height="679" key="Maven.ArtifactSearchDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1584981437227" />
     <state x="712" y="303" width="387" height="433" key="chooseDestDirectoryDialog" timestamp="1582985754535">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
