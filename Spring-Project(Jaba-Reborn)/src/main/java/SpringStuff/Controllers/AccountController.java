@@ -1,13 +1,14 @@
-package SpringStuff;
+package SpringStuff.Controllers;
 
 import SpringStuff.Entities.Account;
 import SpringStuff.Entities.Transaction;
+import SpringStuff.Repos.AccountRepository;
+import SpringStuff.Repos.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -42,8 +43,6 @@ public class AccountController {
         transactionRepository.save(transaction);
         Account sender = accountRepository.getById(transaction.getSenderid());
         Account receiver = accountRepository.getById(transaction.getReceiverid());
-        accountRepository.delete(sender);
-        accountRepository.delete(receiver);
         sender.setBalance(sender.getBalance()-transaction.getSum());
         receiver.setBalance(receiver.getBalance()+transaction.getSum());
         accountRepository.save(sender);

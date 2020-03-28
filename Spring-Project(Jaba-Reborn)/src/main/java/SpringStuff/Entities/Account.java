@@ -33,6 +33,7 @@ public class Account {
     public void setBalance(double balance){this.balance=balance;}
     public void setCurrency(String currency){this.currency=currency;}
     //----------------------------------------------------------------------
+    @Deprecated
     private double CountBalance(){
       return 0;
         //good night sweet prince (этот метод больше не нужен, но он мне очень нравится, так что пусть будет)
@@ -41,6 +42,6 @@ public class Account {
     //---------------------------------------------------------------------------
 }
 
-enum CURRENCY {
+enum currency {
     RU, US, EU;
 }

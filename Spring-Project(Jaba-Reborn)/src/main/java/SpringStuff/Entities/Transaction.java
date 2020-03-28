@@ -11,7 +11,7 @@ public class Transaction {
     @Column(name = "id")
     private long id;
     @Column(name = "currency")
-    private CURRENCY currency;
+    private currency currency;
     @Column(name = "sum")
     private double sum;
     @Column(name = "date")
@@ -21,7 +21,7 @@ public class Transaction {
     @Column(name = "receiverid")
     private long receiverid;
 //----------------------------------------------------------------
-    public Transaction(CURRENCY currency, double sum, String date, long senderid, long receiverid){
+    public Transaction(currency currency, double sum, String date, long senderid, long receiverid){
         this.currency=currency;
         this.sum=sum;
         this.date=date;
@@ -30,19 +30,19 @@ public class Transaction {
     }
 //------------------------------------------------------------------------------
     public long getId() { return id; }
-    public CURRENCY getCurrency() { return currency; }
+    public currency getCurrency() { return currency; }
     public double getSum() { return sum; }
     public String getDate() { return date; }
     public long getSenderid() { return senderid; }
     public long getReceiverid() { return receiverid; }
 //----------------------------------------------------------------------------
-    public void setCurrency(CURRENCY currency) { this.currency = currency; }
+    public void setCurrency(currency currency) { this.currency = currency; }
     public void setSum(double sum) { this.sum = sum; }
     public void setDate(String date) { this.date = date; }
 //----------------------------------------------------------------------------------
 
 }
 
-enum TAG {
-    RESTAURANT, SHOP, PHARMACY, TANKIONLINE, PIVO;
-}
+//enum tag {
+  //  RESTAURANT, SHOP, PHARMACY, TANKIONLINE, PIVO;
+//} I removed tag cause it doesn't seem to be of a big use

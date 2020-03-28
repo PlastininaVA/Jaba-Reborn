@@ -1,5 +1,6 @@
-package SpringStuff;
+package SpringStuff.Controllers;
 
+import SpringStuff.Repos.UserRepository;
 import org.mindrot.jbcrypt.BCrypt;
 import SpringStuff.Entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.crypto.Cipher;
 import java.util.List;
 
 @RestController
