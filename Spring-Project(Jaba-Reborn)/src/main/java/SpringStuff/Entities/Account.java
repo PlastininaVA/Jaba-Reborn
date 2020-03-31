@@ -3,34 +3,65 @@ package SpringStuff.Entities;
 import javax.persistence.*;
 import java.util.ArrayList;
 
+import SpringStuff.Repos.AccountRepository;
+import SpringStuff.Repos.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
+/**
+ * Сущность - аккаунт с полями user(сущность типа User - владелец аккаунта), id, balance и currency(enum RU/US/EU)
+ */
 @Entity
 @Table(name = "account")
 public class Account {
 
-    @Column(name="userid")
-    private long userid;
+
+    @ManyToOne
+    @JoinColumn(name="userid", nullable = false)
+    private User user;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+
     @Column(name = "id")
     private long id;
+
     @Column(name = "balance")
     private double balance;
+
     @Column(name = "currency")
     private String currency;
 
     //--------------------------------------------------------------------------
-    public Account(long user_id, double balance, String currency){
-       this.userid=user_id;
+    public Account(User user, double balance, String currency){
+        this.user=user;
         this.balance=balance;
         this.currency=currency;
     }
     //------------------------------------------------------------
-    public long getUser_id(){return userid;}
+    /**
+     * Геттер для поля user
+     */
+    public User getUser(){return user;}
+    /**
+     * Геттер для поля id
+     */
     public long getId(){return id;}
+    /**
+     * Геттер для поля balance
+     */
     public double getBalance(){return balance;}
+    /**
+     * Геттер для поля currency
+     */
     public String getCurrency(){return currency;}
     //---------------------------------------------------------
+    /**
+     * Сеттер для поля balance
+     */
     public void setBalance(double balance){this.balance=balance;}
+    /**
+     * Сеттер для поля currency
+     */
     public void setCurrency(String currency){this.currency=currency;}
     //----------------------------------------------------------------------
     @Deprecated
@@ -42,6 +73,9 @@ public class Account {
     //---------------------------------------------------------------------------
 }
 
+/**
+ * Собственно, enum валют(RU/US/EU)
+ */
 enum currency {
     RU, US, EU;
 }

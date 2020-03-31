@@ -3,41 +3,82 @@ package SpringStuff.Entities;
 import javax.persistence.*;
 import javax.sound.midi.Receiver;
 
+/**
+ * Сущность - транзакция с полями id, currency, sum, date, sender(аккаунт - отправитель), receiver(аккаунт - получатель)
+ */
 @Entity
 @Table(name = "transaction")
 public class Transaction {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private long id;
+
     @Column(name = "currency")
     private currency currency;
+
     @Column(name = "sum")
     private double sum;
+
     @Column(name = "date")
     private String date;
-    @Column(name = "senderid")
-    private long senderid;
-    @Column(name = "receiverid")
-    private long receiverid;
+
+    @ManyToOne
+    @JoinColumn(name = "senderid")
+    private Account sender;
+
+    @ManyToOne
+    @JoinColumn(name = "receiverid")
+    private Account receiver;
 //----------------------------------------------------------------
-    public Transaction(currency currency, double sum, String date, long senderid, long receiverid){
+    /**
+     * Конструктор с параметрами currency, sum, date, sender, receiver (id генерируется само)
+     * */
+    public Transaction(currency currency, double sum, String date, Account sender, Account receiver){
         this.currency=currency;
         this.sum=sum;
         this.date=date;
-        this.senderid=senderid;
-        this.receiverid=receiverid;
+        this.sender=sender;
+        this.receiver=receiver;
     }
 //------------------------------------------------------------------------------
+    /**
+     * Геттер для поля id
+     */
     public long getId() { return id; }
+    /**
+     * Геттер для поля currency
+     */
     public currency getCurrency() { return currency; }
+    /**
+     * Геттер для поля sum
+     */
     public double getSum() { return sum; }
+    /**
+     * Геттер для поля date
+     */
     public String getDate() { return date; }
-    public long getSenderid() { return senderid; }
-    public long getReceiverid() { return receiverid; }
+    /**
+     * Геттер для поля sender
+     */
+    public Account getSender() { return sender; }
+    /**
+     * Геттер для поля receiver
+     */
+    public Account getReceiver() { return receiver; }
 //----------------------------------------------------------------------------
+    /**
+     * Сеттер для поля currency
+     */
     public void setCurrency(currency currency) { this.currency = currency; }
+    /**
+     * Сеттер для поля sum
+     */
     public void setSum(double sum) { this.sum = sum; }
+    /**
+     * Сеттер для поля date
+     */
     public void setDate(String date) { this.date = date; }
 //----------------------------------------------------------------------------------
 

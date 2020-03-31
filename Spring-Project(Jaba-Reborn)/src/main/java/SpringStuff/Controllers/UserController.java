@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST контроллер для взаимодействия с репозиторием пользователей
+ */
 @RestController
 public class UserController {
     @Autowired
@@ -21,32 +24,66 @@ public class UserController {
     }
 
 
-    @PostMapping(value="/putUser")
+    /**
+     * Метод, позволяющий добавить нового пользователя в репозиторий
+     * @param user Задаваемый пользователь. При добавлении в репозиторий пароль меняется на зашифрованный
+     */
+    @PostMapping(value="/api/user")
     public void putUser(@RequestBody User user){
+        user.setPassword(BCrypt.hashpw(user.getPasswordHash(),BCrypt.gensalt()));
         userRepository.save(user);
+        //Вот здесь немного костыльно, ибо по факту в @RequestBody должен закидываться юзер с уже имеющимся полем passwordHash,
+        //(которое на самом деле является еще не зашифрованным паролем) но, наверное это не так критично
+        //С другой стороны, передавать пароли по http вроде так себе практика?
     }
 
-    @GetMapping(value="/findById",produces = "application/json; charset=UTF-8")
+    /**
+     * Метод для поиска пользователя в репозитории
+     * @param id id, по которому осуществляется поиск
+     * @return пользователь с соответствующим id
+     */
+    @GetMapping(value="/api/user",produces = "application/json; charset=UTF-8")
     public ResponseEntity<?> findId(@RequestParam(value="id") Long id){
         return new ResponseEntity<User>(userRepository.getById(id), HttpStatus.OK);
     }
 
-    @GetMapping(value="/findByPhone",produces = "application/json; charset=UTF-8")
+    /**
+     * Метод для поиска пользователя в репозитории
+     * @param phone phone, по которому осуществляется поиск
+     * @return пользователь с соответствующим phone
+     */
+    @GetMapping(value="/api/user/phone",produces = "application/json; charset=UTF-8")
     public ResponseEntity<?> findPhone(@RequestParam(value="phone") String phone){
         return new ResponseEntity<User>(userRepository.getByPhone(phone),HttpStatus.OK);
     }
 
-    @GetMapping(value="/findByPassport", produces = "application/json; charset=UTF-8")
+    /**
+     * Метод для поиска пользователя в репозитории
+     * @param passport passport, по которому осуществляется поиск
+     * @return пользователь с соответствующим passport
+     */
+    @GetMapping(value="/api/user/passport", produces = "application/json; charset=UTF-8")
     public ResponseEntity<?> findPassport(@RequestParam(value = "passport") String passport){
         return new ResponseEntity<User>(userRepository.getByPassport(passport), HttpStatus.OK);
     }
 
-    @GetMapping(value="/findBySurname",produces = "application/json; charset=UTF-8")
+    /**
+     * Метод для поиска пользователя в репозитории
+     * @param surname surname, по которому осуществляется поиск
+     * @return List пользователей с соответствующим surnmame
+     */
+    @GetMapping(value="/api/user/surname",produces = "application/json; charset=UTF-8")
     public ResponseEntity<?> findSurname(@RequestParam(value="surname") String surname){
         return new ResponseEntity<List<User>>(userRepository.getBySurname(surname),HttpStatus.OK);
     }
 
-    @PutMapping(value="/login",produces = "application/json; charset=UTF-8")
+    /**
+     * Метод, проверяющий, есть ли в репозитории пользователь с заданной комбинацией phone-password
+     * @param phone заданный phone
+     * @param password заданный password
+     * @return сообщение о том, есть ли такой пользователь
+     */
+    @PutMapping(value="api/user/login",produces = "application/json; charset=UTF-8")
     public ResponseEntity<?> login(@RequestParam(value="phone") String phone, @RequestParam(value="password") String password){
         User user = userRepository.getByPhone(phone);
 
