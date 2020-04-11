@@ -49,6 +49,8 @@ public class User {
         this.phone=phone;
         this.passwordHash=passwordHash;
     }
+
+    public User(){};
     //--------------------------------------------------------
     /**
      * Геттер для поля id

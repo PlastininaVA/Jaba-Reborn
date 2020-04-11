@@ -11,13 +11,14 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.vaadin.viritin.fields.IntegerField;
 import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.grid.MGrid;
 import org.vaadin.viritin.layouts.MVerticalLayout;
 
 
 
-@SpringUI(path = "/layout/accounts")
+@SpringUI(path = "/layout/accountstable")
 public class AccountsTable extends UI {
     @Autowired
     UserRepository userRepository;
@@ -30,23 +31,24 @@ public class AccountsTable extends UI {
         MGrid<Account> table = new MGrid(Account.class);
         table.setRows(accountRepository.getByUser(userRepository.getById(CurrentInfo.getCurrentUser())));
         table.withProperties("userid", "id", "balance", "currency");
-        MTextField accountIdField = new MTextField("Account ID");
 
+
+        IntegerField accountIdField = new IntegerField("Account ID");
         Button movetotransactions = new Button("Transactions");
         movetotransactions.addClickListener(e -> {
             CurrentInfo.setCurrentUser(Long.valueOf(accountIdField.toString()));
-            Page.getCurrent().setLocation("/layout/transactions");
+            Page.getCurrent().setLocation("/layout/transactionstable");
                 });
         verticalLayout.add(table);
         verticalLayout.add(accountIdField);
         verticalLayout.add(movetotransactions);
 
-        Button gotomain = new Button("Main screen");
-        gotomain.addClickListener(e -> {
+        Button main = new Button("Main screen");
+        main.addClickListener(e -> {
             Page.getCurrent().setLocation("/layout/main");
         });
 
-        verticalLayout.add(gotomain);
+        verticalLayout.add(main);
         setContent(verticalLayout);
     }
 }

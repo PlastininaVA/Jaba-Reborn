@@ -7,12 +7,10 @@ import SpringStuff.Repos.UserRepository;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.LoginForm;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -23,7 +21,7 @@ public class Login extends UI {
 
     @Override
     protected void init(VaadinRequest request) {
-        VerticalLayout layout = new VerticalLayout();
+        MVerticalLayout layout = new MVerticalLayout();
         LoginForm loginForm = new LoginForm();
         final Label label = new Label();
         loginForm.addLoginListener(event -> {
@@ -44,7 +42,15 @@ public class Login extends UI {
                 Page.getCurrent().setLocation("/main");
             }
         });
+
+        Button register = new Button("Registration");
+        register.addClickListener(e ->
+        {
+            Page.getCurrent().setLocation("/layout/registration");
+        });
+
         layout.addComponents(loginForm,label);
+        layout.add(register);
         setContent(layout);
     }
 }

@@ -1,27 +1,60 @@
 package SpringStuff.UI;
 
 import SpringStuff.CurrentInfo;
+import SpringStuff.Repos.AccountRepository;
+import SpringStuff.Repos.TransactionRepository;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.vaadin.viritin.fields.DoubleField;
+import org.vaadin.viritin.fields.IntegerField;
+import org.vaadin.viritin.layouts.MVerticalLayout;
 
 @SpringUI(path = "/layout/account")
 public class AccountPage extends UI {
 
+    @Autowired
+    AccountRepository accountRepository;
+    @Autowired
+    TransactionRepository transactionRepository;
+
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-    Button movetotransactions = new Button("Transactions");
+        MVerticalLayout layout = new MVerticalLayout();
+        Button movetotransactions = new Button("Transactions");
         movetotransactions.addClickListener(e -> {
+            Page.getCurrent().setLocation("/layout/transactions");
+        });
 
-        Page.getCurrent().setLocation("/layout/transactions");
-    });
+        DoubleField sum = new DoubleField("Sum");
+        IntegerField receiver = new IntegerField("Receiver");
+        Button committransaction = new Button("Commit");
+        Label transactionstatus = new Label("");
+        committransaction.addClickListener(e ->
+        {
+            Double money=sum.getValue();
+            Long receiverid = Long.valueOf(receiver.toString());
 
-//ЗДЕСЬ МЕТОД ДЛЯ ДОБАВЛЕНИЯ ТРАНЗАКЦИИ
+            if (accountRepository.getById(CurrentInfo.getCurrentAccount()).getBalance() >= money)
+            {
+                accountRepository.getById(CurrentInfo.getCurrentAccount()).setBalance(accountRepository.getById(CurrentInfo.getCurrentAccount()).getBalance()-money);
+                accountRepository.getById(receiverid).setBalance(accountRepository.getById(receiverid).getBalance()+money);
+                transactionstatus.setValue("Transaction successfull");
+            }
+            else {
+                transactionstatus.setValue("Not enough money");
+            }
+        });
 
-        Button gotomain = new Button("Main screen");
-        gotomain.addClickListener(e -> {
+
+
+        Button main = new Button("Main screen");
+        main.addClickListener(e -> {
+            CurrentInfo.setCurrentAccount(null);
             Page.getCurrent().setLocation("/layout/main");
         });
 

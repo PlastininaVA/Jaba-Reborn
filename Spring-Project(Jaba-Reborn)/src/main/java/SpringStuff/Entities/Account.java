@@ -3,6 +3,7 @@ package SpringStuff.Entities;
 import javax.persistence.*;
 import java.util.ArrayList;
 
+import SpringStuff.CurrentInfo;
 import SpringStuff.Repos.AccountRepository;
 import SpringStuff.Repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Table(name = "account")
 public class Account {
 
+    @Autowired
+    UserRepository userRepository;
 
     @ManyToOne
     @JoinColumn(name="userid", nullable = false)
@@ -35,6 +38,14 @@ public class Account {
         this.user=user;
         this.balance=balance;
         this.currency=currency;
+    }
+    public Account(String currency){
+        this.user=userRepository.getById(CurrentInfo.getCurrentUser());
+        this.balance=0;
+        this.currency=currency;
+    }
+
+    public Account() {
     }
     //------------------------------------------------------------
     /**
