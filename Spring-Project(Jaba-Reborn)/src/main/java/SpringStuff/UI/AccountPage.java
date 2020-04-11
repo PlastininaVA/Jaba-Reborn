@@ -1,6 +1,7 @@
 package SpringStuff.UI;
 
 import SpringStuff.CurrentInfo;
+import SpringStuff.Entities.Transaction;
 import SpringStuff.Repos.AccountRepository;
 import SpringStuff.Repos.TransactionRepository;
 import com.vaadin.server.Page;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.vaadin.viritin.fields.DoubleField;
 import org.vaadin.viritin.fields.IntegerField;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+
+import java.util.Date;
 
 @SpringUI(path = "/layout/account")
 public class AccountPage extends UI {
@@ -41,8 +44,18 @@ public class AccountPage extends UI {
 
             if (accountRepository.getById(CurrentInfo.getCurrentAccount()).getBalance() >= money)
             {
-                accountRepository.getById(CurrentInfo.getCurrentAccount()).setBalance(accountRepository.getById(CurrentInfo.getCurrentAccount()).getBalance()-money);
-                accountRepository.getById(receiverid).setBalance(accountRepository.getById(receiverid).getBalance()+money);
+                Transaction transaction = new Transaction(accountRepository.getById(CurrentInfo.getCurrentAccount()).getCurrency(),
+                        money, (new Date()).toString(), accountRepository.getById(CurrentInfo.getCurrentAccount()),
+                        accountRepository.getById(receiverid));
+                transactionRepository.save(transaction);
+
+                accountRepository.getById(
+                        CurrentInfo.getCurrentAccount()).setBalance(accountRepository.getById(CurrentInfo.getCurrentAccount())
+                        .getBalance()-money);
+
+                accountRepository.getById(
+                        receiverid).setBalance(accountRepository.getById(receiverid)
+                        .getBalance()+money);
                 transactionstatus.setValue("Transaction successfull");
             }
             else {

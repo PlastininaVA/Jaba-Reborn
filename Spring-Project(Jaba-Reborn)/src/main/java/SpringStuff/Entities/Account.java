@@ -31,15 +31,15 @@ public class Account {
     private double balance;
 
     @Column(name = "currency")
-    private String currency;
+    private currency currency;
 
     //--------------------------------------------------------------------------
-    public Account(User user, double balance, String currency){
+    public Account(User user, double balance, currency currency){
         this.user=user;
         this.balance=balance;
         this.currency=currency;
     }
-    public Account(String currency){
+    public Account(currency currency){
         this.user=userRepository.getById(CurrentInfo.getCurrentUser());
         this.balance=0;
         this.currency=currency;
@@ -63,7 +63,7 @@ public class Account {
     /**
      * Геттер для поля currency
      */
-    public String getCurrency(){return currency;}
+    public currency getCurrency(){return currency;}
     //---------------------------------------------------------
     /**
      * Сеттер для поля balance
@@ -72,7 +72,7 @@ public class Account {
     /**
      * Сеттер для поля currency
      */
-    public void setCurrency(String currency){this.currency=currency;}
+    public void setCurrency(currency currency){this.currency=currency;}
     //----------------------------------------------------------------------
     @Deprecated
     private double CountBalance(){
