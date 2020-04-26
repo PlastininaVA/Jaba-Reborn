@@ -1,15 +1,17 @@
 package SpringStuff;
-import SpringStuff.Entities.User;
-
+/**
+Класс хранит данные о том, какой пользователь залогинен и какой аккаунт сейчас используется
+ */
 public class CurrentInfo {
-    private static Long CurrentUser;
+
+    private static Long currentUser;
     public static void setCurrentUser(Long user){
-        CurrentUser = user;
+        currentUser = user;
     }
     public static Long getCurrentUser() {
-        return CurrentUser;
+        return currentUser;
     }
-    private static Long CurrentAccount;
-    public static void setCurrentAccount(Long account) {CurrentAccount = account;}
-    public static Long getCurrentAccount(){return CurrentAccount;}
+    private static Long currentAccount;
+    public static void setCurrentAccount(Long account) { currentAccount = account; }
+    public static Long getCurrentAccount() { return currentAccount; }
 }

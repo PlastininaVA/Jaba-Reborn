@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Table(name = "account")
 public class Account {
 
+    @Transient
     @Autowired
     UserRepository userRepository;
 
@@ -30,6 +31,7 @@ public class Account {
     @Column(name = "balance")
     private double balance;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "currency")
     private currency currency;
 

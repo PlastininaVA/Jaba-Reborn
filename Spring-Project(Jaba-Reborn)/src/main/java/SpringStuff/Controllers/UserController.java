@@ -29,9 +29,10 @@ public class UserController {
      * @param user Задаваемый пользователь. При добавлении в репозиторий пароль меняется на зашифрованный
      */
     @PostMapping(value="/api/user")
-    public void putUser(@RequestBody User user){
+    public ResponseEntity<?> putUser(@RequestBody User user){
         user.setPassword(BCrypt.hashpw(user.getPasswordHash(),BCrypt.gensalt()));
         userRepository.save(user);
+        return new ResponseEntity<HttpStatus>(HttpStatus.CREATED);
         //Вот здесь немного костыльно, ибо по факту в @RequestBody должен закидываться юзер с уже имеющимся полем passwordHash,
         //(которое на самом деле является еще не зашифрованным паролем) но, наверное это не так критично
         //С другой стороны, передавать пароли по http вроде так себе практика?
@@ -43,7 +44,7 @@ public class UserController {
      * @return пользователь с соответствующим id
      */
     @GetMapping(value="/api/user",produces = "application/json; charset=UTF-8")
-    public ResponseEntity<?> findId(@RequestParam(value="id") Long id){
+    public ResponseEntity<?> findById(@RequestParam(value="id") Long id){
         return new ResponseEntity<User>(userRepository.getById(id), HttpStatus.OK);
     }
 
@@ -53,7 +54,7 @@ public class UserController {
      * @return пользователь с соответствующим phone
      */
     @GetMapping(value="/api/user/phone",produces = "application/json; charset=UTF-8")
-    public ResponseEntity<?> findPhone(@RequestParam(value="phone") String phone){
+    public ResponseEntity<?> findByPhone(@RequestParam(value="phone") String phone){
         return new ResponseEntity<User>(userRepository.getByPhone(phone),HttpStatus.OK);
     }
 
@@ -63,7 +64,7 @@ public class UserController {
      * @return пользователь с соответствующим passport
      */
     @GetMapping(value="/api/user/passport", produces = "application/json; charset=UTF-8")
-    public ResponseEntity<?> findPassport(@RequestParam(value = "passport") String passport){
+    public ResponseEntity<?> findByPassport(@RequestParam(value = "passport") String passport){
         return new ResponseEntity<User>(userRepository.getByPassport(passport), HttpStatus.OK);
     }
 
@@ -73,7 +74,7 @@ public class UserController {
      * @return List пользователей с соответствующим surnmame
      */
     @GetMapping(value="/api/user/surname",produces = "application/json; charset=UTF-8")
-    public ResponseEntity<?> findSurname(@RequestParam(value="surname") String surname){
+    public ResponseEntity<?> findBySurname(@RequestParam(value="surname") String surname){
         return new ResponseEntity<List<User>>(userRepository.getBySurname(surname),HttpStatus.OK);
     }
 

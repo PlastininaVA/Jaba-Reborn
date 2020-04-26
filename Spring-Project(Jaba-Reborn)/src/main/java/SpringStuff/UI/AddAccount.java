@@ -17,7 +17,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 
 
 @SpringUI(path = "/layout/addaccount")
-public class addAccount extends UI{
+public class AddAccount extends UI{
     @Autowired
     AccountRepository accountRepository;
 

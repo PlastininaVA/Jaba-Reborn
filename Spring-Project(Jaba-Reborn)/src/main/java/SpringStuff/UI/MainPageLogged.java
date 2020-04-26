@@ -5,19 +5,20 @@ import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 import org.vaadin.viritin.layouts.MVerticalLayout;
+import sun.rmi.runtime.Log;
 
 @SpringUI(path = "/layout/main")
 public class MainPageLogged extends  UI{
     @Override
     protected void init(VaadinRequest vaadinRequest) {
         MVerticalLayout layout = new MVerticalLayout();
-        Button button1 = new Button("Log out");
-        button1.addClickListener(e -> {
+        Button LogOut = new Button("Log out");
+        LogOut.addClickListener(e -> {
             SpringStuff.CurrentInfo.setCurrentUser(null);
             Page.getCurrent().setLocation("/layout/login");
         });
-        Button button2 = new Button("To user page");
-        button2.addClickListener(e -> Page.getCurrent().setLocation("/layout/user"));
+        Button toUserPage = new Button("To user page");
+        toUserPage.addClickListener(e -> Page.getCurrent().setLocation("/layout/user"));
 
     }
 }
