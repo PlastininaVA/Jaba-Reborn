@@ -32,13 +32,17 @@ public class TransactionsTable extends UI {
 
         MGrid<Transaction> tableSent = new MGrid<>(Transaction.class);
 
+        tableSent.addColumn(transaction -> {return transaction.getSender().getId();}).setCaption("senderid").setId("senderid");
+        tableSent.addColumn(transaction -> {return transaction.getReceiver().getId();}).setCaption("receiverid").setId("receiverid");
         tableSent.setRows(transactionRepository.getBySender(accountRepository.getById(CurrentInfo.getCurrentAccount())));
-        tableSent.withProperties("id", "currency", "sum", "date", "sender", "receiver");
+        tableSent.withProperties("id", "currency", "sum", "date", "senderid", "receiverid");
 
         MGrid<Transaction> tableReceived = new MGrid<>(Transaction.class);
 
+        tableReceived.addColumn(transaction -> {return transaction.getSender().getId();}).setCaption("senderid").setId("senderid");
+        tableReceived.addColumn(transaction -> {return transaction.getReceiver().getId();}).setCaption("receiverid").setId("receiverid");
         tableReceived.setRows(transactionRepository.getByReceiver(accountRepository.getById(CurrentInfo.getCurrentAccount())));
-        tableReceived.withProperties("id", "currency", "sum", "date", "sender", "receiver");
+        tableReceived.withProperties("id", "currency", "sum", "date", "senderid", "receiverid");
 
 
         layout.add(tableSent);

@@ -41,6 +41,7 @@ public class Transaction {
         this.sender=sender;
         this.receiver=receiver;
     }
+    public Transaction(){ }
 //------------------------------------------------------------------------------
     /**
      * Геттер для поля id

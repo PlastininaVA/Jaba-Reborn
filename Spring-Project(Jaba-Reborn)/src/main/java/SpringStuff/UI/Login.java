@@ -35,7 +35,7 @@ public class Login extends UI {
                 CurrentInfo.setCurrentUser(user.getId());
                 label.setValue("Login successful, redirecting to profile");
                 try {
-                    Thread.sleep(4500);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -44,8 +44,7 @@ public class Login extends UI {
         });
 
         Button register = new Button("Registration");
-        register.addClickListener(e ->
-        {
+        register.addClickListener(e -> {
             Page.getCurrent().setLocation("/layout/registration");
         });
 

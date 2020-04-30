@@ -37,6 +37,10 @@ public class AddAccount extends UI{
             accountRepository.save(account);
             editor.setEntity(new AccountDTO());
         });
-        setContent(new VerticalLayout(editor));
+        Button userPage = new Button("User Page");
+        userPage.addClickListener(e -> {
+           Page.getCurrent().setLocation("/layout/user");
+        });
+        setContent(new VerticalLayout(editor,userPage));
     }
 }
