@@ -44,7 +44,7 @@ public class AccountPage extends UI {
         {
             Double money=sum.getValue();
             Long receiverid = Long.valueOf(receiver.getValue());
-            if (accountRepository.getById(CurrentInfo.getCurrentAccount()).getBalance() >= money)
+            if ((accountRepository.getById(CurrentInfo.getCurrentAccount()).getBalance() >= money) && (money >= 0))
             {
                 Transaction transaction = new Transaction(accountRepository.getById(CurrentInfo.getCurrentAccount()).getCurrency(),
                         money, (new Date()).toString(), accountRepository.getById(CurrentInfo.getCurrentAccount()),
@@ -60,7 +60,10 @@ public class AccountPage extends UI {
                         .getBalance()+money);
                 transactionstatus.setValue("Transaction successfull");
             }
-            else {
+            else if (money < 0){
+                transactionstatus.setValue("Input error");
+            }
+             else {
                 transactionstatus.setValue("Not enough money");
             }
         }
