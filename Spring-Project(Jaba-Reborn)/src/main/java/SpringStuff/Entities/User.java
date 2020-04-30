@@ -1,5 +1,6 @@
 package SpringStuff.Entities;
 
+import SpringStuff.DTO.UserDTO;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.persistence.*;
@@ -50,6 +51,14 @@ public class User {
         this.passwordHash=passwordHash;
     }
 
+    public User(UserDTO dto){
+       this.name = dto.getName();
+       this.surname = dto.getSurname();
+       this.patronymic = dto.getPatronymic();
+       this.passport = dto.getPassport();
+       this.phone = dto.getPhone();
+       this.passwordHash = BCrypt.hashpw(dto.getPassword(),BCrypt.gensalt());
+    }
     public User(){};
     //--------------------------------------------------------
     /**

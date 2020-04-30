@@ -1,7 +1,6 @@
 package SpringStuff.Entities;
 
 import javax.persistence.*;
-import javax.sound.midi.Receiver;
 
 /**
  * Сущность - транзакция с полями id, currency, sum, date, sender(аккаунт - отправитель), receiver(аккаунт - получатель)
@@ -16,7 +15,7 @@ public class Transaction {
     private long id;
 
     @Column(name = "currency")
-    private currency currency;
+    private currencyEnum currency;
 
     @Column(name = "sum")
     private double sum;
@@ -35,8 +34,8 @@ public class Transaction {
     /**
      * Конструктор с параметрами currency, sum, date, sender, receiver (id генерируется само)
      * */
-    public Transaction(currency currency, double sum, String date, Account sender, Account receiver){
-        this.currency=currency;
+    public Transaction(currencyEnum currency, double sum, String date, Account sender, Account receiver){
+        this.currency = currency;
         this.sum=sum;
         this.date=date;
         this.sender=sender;
@@ -50,7 +49,7 @@ public class Transaction {
     /**
      * Геттер для поля currency
      */
-    public currency getCurrency() { return currency; }
+    public currencyEnum getCurrency() { return currency; }
     /**
      * Геттер для поля sum
      */
@@ -71,7 +70,7 @@ public class Transaction {
     /**
      * Сеттер для поля currency
      */
-    public void setCurrency(currency currency) { this.currency = currency; }
+    public void setCurrency(currencyEnum currency) { this.currency = currency; }
     /**
      * Сеттер для поля sum
      */

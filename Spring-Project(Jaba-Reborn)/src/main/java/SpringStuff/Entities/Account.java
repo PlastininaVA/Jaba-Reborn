@@ -1,10 +1,9 @@
 package SpringStuff.Entities;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 
 import SpringStuff.CurrentInfo;
-import SpringStuff.Repos.AccountRepository;
+import SpringStuff.DTO.AccountDTO;
 import SpringStuff.Repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,18 +32,31 @@ public class Account {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "currency")
-    private currency currency;
+    private currencyEnum currency;
 
     //--------------------------------------------------------------------------
-    public Account(User user, double balance, currency currency){
+    public Account(User user, double balance, currencyEnum currency){
         this.user=user;
         this.balance=balance;
-        this.currency=currency;
+        this.currency = currency;
     }
-    public Account(currency currency){
+    public Account(currencyEnum currency){
         this.user=userRepository.getById(CurrentInfo.getCurrentUser());
         this.balance=0;
-        this.currency=currency;
+        this.currency = currency;
+    }
+    public Account(AccountDTO dto){
+       //удалю как нибудь потом
+        //this.user=userRepository.getById(CurrentInfo.getCurrentUser());
+        this.user = new User();
+        this.balance=0;
+        if (dto.getCurrency().equals("RU")) {
+            this.currency = currencyEnum.RU;
+        }
+        else if (dto.getCurrency().equals("US")) {
+            this.currency = currencyEnum.US;
+        }
+        else this.currency=currencyEnum.EU;
     }
 
     public Account() {
@@ -65,7 +77,7 @@ public class Account {
     /**
      * Геттер для поля currency
      */
-    public currency getCurrency(){return currency;}
+    public currencyEnum getCurrency(){return currency;}
     //---------------------------------------------------------
     /**
      * Сеттер для поля balance
@@ -74,7 +86,12 @@ public class Account {
     /**
      * Сеттер для поля currency
      */
-    public void setCurrency(currency currency){this.currency=currency;}
+    public void setCurrency(currencyEnum currency){this.currency = currency;}
+
+    /**
+     * Сеттер для поля user
+     */
+    public void setUser(User user){this.user = user;}
     //----------------------------------------------------------------------
     @Deprecated
     private double CountBalance(){
@@ -83,11 +100,4 @@ public class Account {
     }
 
     //---------------------------------------------------------------------------
-}
-
-/**
- * Собственно, enum валют(RU/US/EU)
- */
-enum currency {
-    RU, US, EU;
 }

@@ -1,24 +1,27 @@
 package SpringStuff.UI;
 
+import SpringStuff.DTO.UserDTO;
 import SpringStuff.Entities.User;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import org.vaadin.viritin.button.MButton;
+import org.vaadin.viritin.fields.MTextField;
 import org.vaadin.viritin.form.AbstractForm;
 
-public class UserForm extends AbstractForm<User> {
+public class UserForm extends AbstractForm<UserDTO> {
 
-    private final TextField name = new TextField("Enter name");
-    private final TextField surname = new TextField("Enter surname");
-    private final TextField patronymic = new TextField("Enter patronymic");
-    private final TextField passport = new TextField("Enter passport");
-    private final TextField phone = new TextField("Enter phone");
-    private final TextField password = new TextField("Enter password");
-    private final Button saveButton = new Button("Register");
+    private final MTextField name = new MTextField("Enter name");
+    private final MTextField surname = new MTextField("Enter surname");
+    private final MTextField patronymic = new MTextField("Enter patronymic");
+    private final MTextField passport = new MTextField("Enter passport");
+    private final MTextField phone = new MTextField("Enter phone");
+    private final MTextField password = new MTextField("Enter password");
+    private final MButton saveButton = new MButton("Register");
 
     public UserForm() {
-        super(User.class);
+        super(UserDTO.class);
     }
 
     @Override

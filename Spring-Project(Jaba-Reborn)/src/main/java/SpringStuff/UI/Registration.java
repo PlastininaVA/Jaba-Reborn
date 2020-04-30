@@ -3,6 +3,7 @@ package SpringStuff.UI;
 
 import SpringStuff.CurrentInfo;
 import SpringStuff.CurrentInfo;
+import SpringStuff.DTO.UserDTO;
 import SpringStuff.Entities.User;
 import SpringStuff.Repos.UserRepository;
 import com.vaadin.server.Page;
@@ -24,12 +25,19 @@ public class Registration extends UI{
     @Override
     protected void init(VaadinRequest vaadinRequest) {
         UserForm editor = new UserForm();
-        editor.setEntity(new User());
-        editor.setSavedHandler(user ->{
+        editor.setEntity(new UserDTO());
+        editor.setSavedHandler(userDTO ->{
+            User user = new User(userDTO);
             userRepository.save(user);
-            editor.setEntity(new User());
+            editor.setEntity(new UserDTO());
         });
 
-        setContent(new VerticalLayout(editor));
+        Button login = new Button("Login");
+        login.addClickListener(e ->
+        {
+            Page.getCurrent().setLocation("/layout/login");
+        });
+
+        setContent(new VerticalLayout(editor,login));
     }
 }

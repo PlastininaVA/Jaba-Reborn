@@ -25,7 +25,7 @@ public class Login extends UI {
         LoginForm loginForm = new LoginForm();
         final Label label = new Label();
         loginForm.addLoginListener(event -> {
-            String phone = event.getLoginParameter("phone");
+            String phone = event.getLoginParameter("username");
             String password = event.getLoginParameter("password");
             User user = userRepository.getByPhone(phone);
             if ((user == null) || ((user != null) && !(BCrypt.checkpw(password,user.getPasswordHash())))) {
@@ -35,11 +35,11 @@ public class Login extends UI {
                 CurrentInfo.setCurrentUser(user.getId());
                 label.setValue("Login successful, redirecting to profile");
                 try {
-                    Thread.sleep(2500);
+                    Thread.sleep(4500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                Page.getCurrent().setLocation("/main");
+                Page.getCurrent().setLocation("/layout/main");
             }
         });
 

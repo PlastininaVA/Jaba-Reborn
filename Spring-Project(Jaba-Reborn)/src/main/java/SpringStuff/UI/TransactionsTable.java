@@ -19,7 +19,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 
 
 
-@SpringUI(path = "/layout/transactionstable")
+@SpringUI(path = "/layout/transactions")
 public class TransactionsTable extends UI {
     @Autowired
     TransactionRepository transactionRepository;
@@ -29,21 +29,22 @@ public class TransactionsTable extends UI {
     @Override
     protected void init(VaadinRequest request) {
         MVerticalLayout layout = new MVerticalLayout();
+
         MGrid<Transaction> tableSent = new MGrid<>(Transaction.class);
+
         tableSent.setRows(transactionRepository.getBySender(accountRepository.getById(CurrentInfo.getCurrentAccount())));
         tableSent.withProperties("id", "currency", "sum", "date", "sender", "receiver");
 
-
         MGrid<Transaction> tableReceived = new MGrid<>(Transaction.class);
-        tableSent.setRows(transactionRepository.getByReceiver(accountRepository.getById(CurrentInfo.getCurrentAccount())));
-        tableSent.withProperties("id", "currency", "sum", "date", "sender", "receiver");
+
+        tableReceived.setRows(transactionRepository.getByReceiver(accountRepository.getById(CurrentInfo.getCurrentAccount())));
+        tableReceived.withProperties("id", "currency", "sum", "date", "sender", "receiver");
 
 
         layout.add(tableSent);
         layout.add(tableReceived);
 
         Button accountPage = new Button("Account page");
-
 
         Button main = new Button("Main screen");
         main.addClickListener(e -> {

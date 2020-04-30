@@ -1,6 +1,7 @@
 package SpringStuff.UI;
 
 import SpringStuff.CurrentInfo;
+import SpringStuff.Entities.Account;
 import SpringStuff.Entities.Transaction;
 import SpringStuff.Repos.AccountRepository;
 import SpringStuff.Repos.TransactionRepository;
@@ -28,6 +29,8 @@ public class AccountPage extends UI {
     @Override
     protected void init(VaadinRequest vaadinRequest) {
         MVerticalLayout layout = new MVerticalLayout();
+        Label account = new Label("current account id is" + CurrentInfo.getCurrentAccount().toString());
+        Label balance = new Label("balance is " + accountRepository.getById(CurrentInfo.getCurrentAccount()).getBalance());
         Button movetotransactions = new Button("Transactions");
         movetotransactions.addClickListener(e -> {
             Page.getCurrent().setLocation("/layout/transactions");
@@ -40,8 +43,7 @@ public class AccountPage extends UI {
         committransaction.addClickListener(e ->
         {
             Double money=sum.getValue();
-            Long receiverid = Long.valueOf(receiver.toString());
-
+            Long receiverid = Long.valueOf(receiver.getValue());
             if (accountRepository.getById(CurrentInfo.getCurrentAccount()).getBalance() >= money)
             {
                 Transaction transaction = new Transaction(accountRepository.getById(CurrentInfo.getCurrentAccount()).getCurrency(),
@@ -61,7 +63,8 @@ public class AccountPage extends UI {
             else {
                 transactionstatus.setValue("Not enough money");
             }
-        });
+        }
+        );
 
 
 
@@ -71,7 +74,8 @@ public class AccountPage extends UI {
             Page.getCurrent().setLocation("/layout/main");
         });
 
-
+        layout.add(account, balance, movetotransactions, sum, receiver, committransaction, transactionstatus, main);
+        setContent(layout);
 
     }
 

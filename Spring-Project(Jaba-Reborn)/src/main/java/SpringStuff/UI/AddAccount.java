@@ -2,8 +2,10 @@ package SpringStuff.UI;
 
 import SpringStuff.CurrentInfo;
 import SpringStuff.CurrentInfo;
+import SpringStuff.DTO.AccountDTO;
 import SpringStuff.Entities.Account;
 import SpringStuff.Entities.User;
+import SpringStuff.Entities.currencyEnum;
 import SpringStuff.Repos.AccountRepository;
 import SpringStuff.Repos.UserRepository;
 import com.vaadin.server.Page;
@@ -20,17 +22,21 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 public class AddAccount extends UI{
     @Autowired
     AccountRepository accountRepository;
-
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
         AccountForm editor = new AccountForm();
-        editor.setEntity(new Account());
-        editor.setSavedHandler(account ->{
+        editor.setEntity(new AccountDTO());
+        editor.setSavedHandler(accountDTO ->{
+            Account account = new Account();
+            account.setBalance(new Double(0));
+            account.setUser(userRepository.getById(CurrentInfo.getCurrentUser()));
+            account.setCurrency(currencyEnum.valueOf(accountDTO.getCurrency()));
             accountRepository.save(account);
-            editor.setEntity(new Account());
+            editor.setEntity(new AccountDTO());
         });
-
         setContent(new VerticalLayout(editor));
     }
 }

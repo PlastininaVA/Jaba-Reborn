@@ -18,7 +18,7 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 
 
 
-@SpringUI(path = "/layout/accountstable")
+@SpringUI(path = "/layout/accounttable")
 public class AccountsTable extends UI {
     @Autowired
     UserRepository userRepository;
@@ -30,7 +30,7 @@ public class AccountsTable extends UI {
         MVerticalLayout verticalLayout = new MVerticalLayout();
         MGrid<Account> table = new MGrid(Account.class);
         table.setRows(accountRepository.getByUser(userRepository.getById(CurrentInfo.getCurrentUser())));
-        table.withProperties("userid", "id", "balance", "currency");
+        table.withProperties("user", "id", "balance", "currency");
 
 
         IntegerField accountIdField = new IntegerField("Account ID");
