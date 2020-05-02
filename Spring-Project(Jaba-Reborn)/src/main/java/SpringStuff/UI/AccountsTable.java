@@ -9,6 +9,7 @@ import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.renderers.NumberRenderer;
 import com.vaadin.ui.renderers.TextRenderer;
@@ -37,13 +38,25 @@ public class AccountsTable extends UI {
 
 
         IntegerField accountIdField = new IntegerField("Account ID");
-        Button movetotransactions = new Button("Transactions");
-        movetotransactions.addClickListener(e -> {
+
+        Label accountAccessibility = new Label("");
+
+        Button accountPage = new Button("Account page");
+        accountPage.addClickListener(e -> {
+            if (CurrentInfo.getCurrentUser() == accountRepository.getById(Long.valueOf(accountIdField.getValue())).getUser().getId()) {
+                CurrentInfo.setCurrentAccount(Long.valueOf(accountIdField.getValue()));
+                Page.getCurrent().setLocation("/layout/account");
+            }
+            else { accountAccessibility.setValue("Cannot access the account(either does not exist or belongs to another user)"); }
+        });
+
+        Button moveToTransactions = new Button("Transactions");
+        moveToTransactions.addClickListener(e -> {
             CurrentInfo.setCurrentAccount(Long.valueOf(accountIdField.getValue()));
             Page.getCurrent().setLocation("/layout/transactions");
-                });
+        });
 
-        verticalLayout.add(table,accountIdField,movetotransactions);
+        verticalLayout.add(table,accountIdField, accountPage, moveToTransactions, accountAccessibility);
 
         Button userPage = new Button("User page");
         userPage.addClickListener(e -> {

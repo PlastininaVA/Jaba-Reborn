@@ -1,5 +1,6 @@
 package SpringStuff.UI;
 import SpringStuff.CurrentInfo;
+import SpringStuff.Repos.AccountRepository;
 import SpringStuff.Repos.UserRepository;
 import com.vaadin.server.Page;
 import com.vaadin.server.VaadinRequest;
@@ -19,25 +20,32 @@ import org.vaadin.viritin.layouts.MVerticalLayout;
 public class UserPage extends UI{
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    AccountRepository accountRepository;
     @Override
     protected void init(VaadinRequest vaadinRequest) {
         MVerticalLayout layout = new MVerticalLayout();
 
-        Label CurrentUser = new Label("Current user id  " + CurrentInfo.getCurrentUser().toString());
+        Label currentUser = new Label("Current user id  " + CurrentInfo.getCurrentUser().toString());
 
-        Label CurrentUserName = new Label("name " + userRepository.getById(CurrentInfo.getCurrentUser()).getName());
+        Label currentUserName = new Label("name " + userRepository.getById(CurrentInfo.getCurrentUser()).getName());
 
         TextField accountIdField = new TextField("Account ID");
 
-        Button AccountPage = new Button("Account Page");
+        Button accountPage = new Button("Account Page");
 
-        AccountPage.addClickListener(e ->{
-                CurrentInfo.setCurrentAccount(Long.valueOf(accountIdField.getValue()));
-                Page.getCurrent().setLocation("/layout/account");
+        Label accountAccessibility = new Label("");
+
+        accountPage.addClickListener(e ->{
+                if (CurrentInfo.getCurrentUser() == accountRepository.getById(Long.valueOf(accountIdField.getValue())).getUser().getId()) {
+                    CurrentInfo.setCurrentAccount(Long.valueOf(accountIdField.getValue()));
+                    Page.getCurrent().setLocation("/layout/account");
+                }
+                else { accountAccessibility.setValue("Cannot access the account(either does not exist or belongs to another user)"); }
         });
 
-        Button AccountsTable = new Button("Accounts Table");
-        AccountsTable.addClickListener(e ->{
+        Button accountsTable = new Button("Accounts Table");
+        accountsTable.addClickListener(e ->{
             Page.getCurrent().setLocation("/layout/accounttable");
         });
 
@@ -53,9 +61,7 @@ public class UserPage extends UI{
         });
 
 
-
-
-        layout.add(CurrentUser,CurrentUserName, accountIdField, AccountPage, AccountsTable ,addAccount, main);
+        layout.add(currentUser, currentUserName, accountIdField, accountPage, accountsTable ,addAccount, main);
         setContent(layout);
     }
 }

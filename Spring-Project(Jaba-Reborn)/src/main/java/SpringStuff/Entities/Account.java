@@ -45,18 +45,19 @@ public class Account {
         this.balance=0;
         this.currency = currency;
     }
+    //ЭТО НЕ ЮЗАЕТСЯ
     public Account(AccountDTO dto){
        //удалю как нибудь потом
         //this.user=userRepository.getById(CurrentInfo.getCurrentUser());
         this.user = new User();
-        this.balance=0;
-        if (dto.getCurrency().equals("RU")) {
-            this.currency = currencyEnum.RU;
+        this.balance=100;
+        if (dto.getCurrency().equals("RUB")) {
+            this.currency = currencyEnum.RUB;
         }
-        else if (dto.getCurrency().equals("US")) {
-            this.currency = currencyEnum.US;
+        else if (dto.getCurrency().equals("USD")) {
+            this.currency = currencyEnum.USD;
         }
-        else this.currency=currencyEnum.EU;
+        else this.currency=currencyEnum.EUR;
     }
 
     public Account() {

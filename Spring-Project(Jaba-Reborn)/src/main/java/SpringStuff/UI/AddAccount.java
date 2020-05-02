@@ -31,7 +31,7 @@ public class AddAccount extends UI{
         editor.setEntity(new AccountDTO());
         editor.setSavedHandler(accountDTO ->{
             Account account = new Account();
-            account.setBalance(new Double(0));
+            account.setBalance(new Double(100));
             account.setUser(userRepository.getById(CurrentInfo.getCurrentUser()));
             account.setCurrency(currencyEnum.valueOf(accountDTO.getCurrency()));
             accountRepository.save(account);

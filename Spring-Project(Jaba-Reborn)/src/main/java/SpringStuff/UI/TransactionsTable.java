@@ -49,14 +49,17 @@ public class TransactionsTable extends UI {
         layout.add(tableReceived);
 
         Button accountPage = new Button("Account page");
-
-        Button main = new Button("Main screen");
-        main.addClickListener(e -> {
-            CurrentInfo.setCurrentAccount(null);
-            Page.getCurrent().setLocation("/layout/main");
+        accountPage.addClickListener(e -> {
+            Page.getCurrent().setLocation("/layout/account");
         });
 
-        layout.add(main);
+        Button userPage = new Button("User Page");
+        userPage.addClickListener(e -> {
+            CurrentInfo.setCurrentAccount(null);
+            Page.getCurrent().setLocation("/layout/user");
+        });
+
+        layout.add(accountPage, userPage);
         setContent(layout);
     }
 }
